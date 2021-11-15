@@ -18,6 +18,9 @@ global timeout_dict
 
 load_dotenv()
 
+yes_synonyms = ["yes","true","sure","of course","agreed","certainly","indeed","absolutely"]
+no_synonyms = ["no","never","negative","false","disagree","of course not","nah"]
+
 token = os.getenv('DISCORD_TOKEN')
 prefix = os.getenv('PREFIX')
 timeout_period = int(os.getenv('TIMEOUT_PERIOD'))
@@ -100,6 +103,12 @@ async def on_message(message):
 
                 elif message_content == 'me':
                     await leaderboard_print_user(message)
+                    
+                elif message_content.startswith('question '):
+                    await normal_question(message)
+                    
+                elif message_content.startswith('help'):
+                    await normal_commands(message)
 
                 elif random.randint(0, 150) == 25:  # Randomly send pic
                     log_message("Random triggered by: " + message.author.name)
@@ -156,6 +165,29 @@ async def normal_based(message):
         based_url = "https://media.discordapp.net/attachments/892872680901054504/896851648150925352/20211005_115431.png?width=429&height=525"
         await message.channel.send(based_url)
         return
+    
+async def normal_question(message):
+    if await timeout_check(message):
+        log_message("Question used by: " + message.author.name)
+        if random.randint(0,1) == 1:
+            await message.channel.send(yes_synonyms[random.randint(0,len(yes_synonyms)-1)])
+        else:
+            await message.channel.send(no_synonyms[random.randint(0,len(no_synonyms)-1)])
+            
+async def normal_commands(message):
+    if await timeout_check(message):
+        list_commands = (
+"""```\nListing commands:
+bun - bunny
+vid - bunny video
+me - bunny stats
+top - server leaderboard
+plus some other secrets
+\n```"""
+)
+        await message.channel.send(list_commands)
+        
+        
 
 ##############################################################################
 # ADMIN STUFF                                                                #
