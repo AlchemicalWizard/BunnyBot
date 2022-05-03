@@ -127,7 +127,7 @@ async def normal_send_image(message):
     if await timeout_check(message):
         log_message("Bun used by: " + message.author.name)
         img_string = "<IMG SRC=\"http://www.rabbit.org/graphics/fun/netbunnies/"
-        page = requests.get('https://rabbit.org/fun/net-bunnies.html')
+        page = requests.get('https://rabbit.org/cgi-bin/random-image/random-image.cgi')
         page_html = str(page.content)
         img_start = page_html.find(img_string)
         img_end = page_html.find("\">", img_start)
@@ -213,7 +213,7 @@ async def admin_sleep(message):
     log_message("bb sleep used")
     await message.channel.send("gn <@!" + str(message.author.id) + "> :rabbit:")
     await message.channel.send("https://tenor.com/view/sleepy-bunny-rabbit-bunny-tired-gif-9909535")
-    await client.logout()
+    await client.close()
     return
 
 async def admin_leave(message):
