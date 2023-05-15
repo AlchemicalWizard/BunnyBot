@@ -7,7 +7,6 @@ import os
 import random
 import pickle
 import json
-import urllib.parse
 import time
 import requests
 import discord
@@ -23,6 +22,7 @@ no_synonyms = ["no","never","negative","false","disagree","of course not","nah"]
 
 token = os.getenv('DISCORD_TOKEN')
 prefix = os.getenv('PREFIX')
+image_directory = os.getenv('IMAGE_DIRECTORY')
 timeout_period = int(os.getenv('TIMEOUT_PERIOD'))
 timeout_warn_period = int(os.getenv('TIMEOUT_WARN_PERIOD'))
 
@@ -126,16 +126,15 @@ async def on_message(message):
 async def normal_send_image(message):
     if await timeout_check(message):
         log_message("Bun used by: " + message.author.name)
-        img_string = "<IMG SRC=\"http://www.rabbit.org/graphics/fun/netbunnies/"
-        page = requests.get('https://rabbit.org/cgi-bin/random-image/random-image.cgi')
-        page_html = str(page.content)
-        img_start = page_html.find(img_string)
-        img_end = page_html.find("\">", img_start)
-        bunny_url = page_html[img_start + 17:img_end]
-        log_message("Sending bun")
-        await message.channel.send('https://' + urllib.parse.quote(bunny_url))
-        log_message("Bun sent")
-        leader_board_update(message)
+        bunnies = os.listdir(image_directory)
+        selected_bunny = random.choice(bunnies)
+        
+        with open(image_directory + '\\' + selected_bunny, 'rb') as f:
+            picture = discord.File(f)
+            log_message("Sending bun")
+            await message.channel.send(file=picture)
+            log_message("Bun sent")
+            leader_board_update(message)
 
 
 async def normal_send_video(message):
