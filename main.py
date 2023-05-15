@@ -129,7 +129,7 @@ async def normal_send_image(message):
         bunnies = os.listdir(image_directory)
         selected_bunny = random.choice(bunnies)
         
-        with open(image_directory + '\\' + selected_bunny, 'rb') as f:
+        with open(image_directory + '/' + selected_bunny, 'rb') as f:
             picture = discord.File(f)
             log_message("Sending bun")
             await message.channel.send(file=picture)
