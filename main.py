@@ -86,7 +86,7 @@ async def on_message(message):
                     await admin_run(message)
 
             else:  # Normal user commands
-                if message_content == 'bun':  # Send bunny pic
+                if message_content in ['bun', 'bnu']:  # Send bunny pic
                     await normal_send_image(message)
 
                 elif message_content == 'vid':  # Send bunny vid
