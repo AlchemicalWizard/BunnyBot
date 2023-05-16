@@ -161,7 +161,7 @@ async def normal_hi(message):
 async def normal_based(message):
     if await timeout_check(message):
         log_message("Based used by: " + message.author.name)
-        based_url = "https://media.discordapp.net/attachments/892872680901054504/896851648150925352/20211005_115431.png?width=429&height=525"
+        based_url = "https://cdn.discordapp.com/attachments/888185145620856892/1108091821281788005/20211005_115431.jpg"
         await message.channel.send(based_url)
         return
     
